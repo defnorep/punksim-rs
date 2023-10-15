@@ -1,0 +1,35 @@
+<div id="individuals">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>ID</th>
+        <th>Age</th>
+        <th>Gender</th>
+        <th>Height</th>
+        <th>Weight</th>
+        <th>Species</th>
+        <th>Status</th>
+        <th>Location</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in individuals  %}
+      {% let (id, epoch, gender, physical, lifeform, location) = i %}
+      <tr>
+        <td>{id.name}</td>
+        <td>{id.surname}</td>
+        <td>{id.civicId}</td>
+        <td>{epoch.age}</td>
+        <td>{gender.gender.toString()}</td>
+        <td>{physical.dimensions[0]} cm</td>
+        <td>{physical.mass} kg</td>
+        <td>{lifeform.species.toString()}</td>
+        <td>{id.status.toString()}</td>
+        <td>{location.locationId}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

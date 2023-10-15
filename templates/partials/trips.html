@@ -1,0 +1,30 @@
+<div id="trips">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Surname</th>
+        <th>ID</th>
+        <th>Origin</th>
+        <th>Destination</th>
+        <th>Mode</th>
+        <th>Distance</th>
+        <th>Distance Remaining</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for trip in trips %}
+      <tr key={traveller.civicId}>
+        <td>{{ trip.name }}</td>
+        <td>{{ trip.surname }}</td>
+        <td>{{ trip.civicId }}</td>
+        <td>{{ trip.originId }}</td>
+        <td>{{ trip.destinationId }}</td>
+        <td>{{ trip.mode }}</td>
+        <td>{{ trip.distance }} meters</td>
+        <td>{{ trip.distanceRemaining }} meters</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

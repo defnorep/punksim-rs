@@ -1,0 +1,31 @@
+<html>
+      <head>
+        <title>City Simulator</title>
+        <script src="https://unpkg.com/htmx.org@1.9.5"></script>
+        <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
+        <link
+          rel="stylesheet"
+          media="(prefers-color-scheme:light)"
+          href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.8.0/cdn/themes/light.css"
+        />
+        <link
+          rel="stylesheet"
+          media="(prefers-color-scheme:dark)"
+          href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.8.0/cdn/themes/dark.css"
+          onload="document.documentElement.classList.add('sl-theme-dark');"
+        />
+        <link rel="stylesheet" href="/public/main.css" />
+        <script
+          type="module"
+          src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.8.0/cdn/shoelace-autoloader.js"
+        ></script>
+      </head>
+      <body>
+        <h1>City Simulator</h1>
+        <div hx-ext="ws" ws-connect="ws://localhost:3001">
+          <div id="clock"></div>
+          <div id="census"></div>
+          <div id="individuals"></div>
+        </div>
+      </body>
+    </html>
