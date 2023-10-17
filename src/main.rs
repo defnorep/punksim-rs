@@ -4,7 +4,7 @@ mod net;
 use bevy::prelude::*;
 use chrono::Utc;
 use flume::{Receiver, Sender};
-use net::socket_startup::socket_startup;
+use net::{socket_startup::socket_startup, web_startup};
 use tokio::task;
 
 #[derive(Resource)]
@@ -20,6 +20,7 @@ async fn main() {
     let (tx, rx) = flume::unbounded();
 
     task::spawn(socket_startup(rx));
+    task::spawn(web_startup());
 
     // set up bevy
     App::new()
