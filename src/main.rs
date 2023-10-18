@@ -1,15 +1,13 @@
 mod global;
-mod net;
 mod time;
 mod ui;
 
 use bevy::prelude::*;
 use chrono::Utc;
 use flume::{Receiver, Sender};
-use net::{socket_startup::socket_startup, web_startup};
 use time::{clock_advance, Clock};
 use tokio::task;
-use ui::clock_ui;
+use ui::{clock_ui::clock_ui, sockets::socket_startup, web::web_startup};
 
 #[derive(Resource)]
 struct SendChannel(Sender<String>);
