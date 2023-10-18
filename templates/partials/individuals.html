@@ -18,16 +18,16 @@
       {% for i in individuals  %}
       {% let (id, epoch, gender, physical, lifeform, location) = i %}
       <tr>
-        <td>{id.name}</td>
-        <td>{id.surname}</td>
-        <td>{id.civicId}</td>
-        <td>{epoch.age}</td>
-        <td>{gender.gender.toString()}</td>
-        <td>{physical.dimensions[0]} cm</td>
-        <td>{physical.mass} kg</td>
-        <td>{lifeform.species.toString()}</td>
-        <td>{id.status.toString()}</td>
-        <td>{location.locationId}</td>
+        <td>{{ id.name }}</td>
+        <td>{{ id.surname }}</td>
+        <td>{{ id.civicId }}</td>
+        <td>{{ epoch.age }}</td>
+        <td>{{ gender.gender }}</td>
+        <td>{{ physical.dimensions.height }} cm</td>
+        <td>{{ physical.mass }} kg</td>
+        <td>{{ lifeform.species }}</td>
+        <td>{{ id.status.toString() }}</td>
+        <td>{{ location.locationId }}</td>
       </tr>
       {% endfor %}
     </tbody>
