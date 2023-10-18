@@ -14,3 +14,11 @@ struct ClockTemplate {
 #[derive(Template)]
 #[template(path = "layout.html")]
 struct LayoutTemplate {}
+
+mod filters {
+    use chrono::{DateTime, Utc};
+
+    pub fn date(s: &DateTime<Utc>, format: &str) -> ::askama::Result<String> {
+        Ok(s.format(format).to_string())
+    }
+}

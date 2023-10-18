@@ -1,5 +1,8 @@
+mod data;
 mod global;
+mod population;
 mod time;
+mod transport;
 mod ui;
 
 use bevy::prelude::*;
@@ -24,10 +27,12 @@ async fn main() {
     task::spawn(socket_startup(rx));
     task::spawn(web_startup());
 
+    let seed = data::seed();
+
     // set up bevy
     App::new()
         .insert_resource(SendChannel(tx))
-        .insert_resource(Clock(Utc::now()))
+        .insert_resource(Clock(seed.date))
         .add_plugins(MinimalPlugins)
         .add_systems(Update, clock_advance)
         .add_systems(FixedUpdate, clock_ui)

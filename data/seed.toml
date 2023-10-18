@@ -1,0 +1,7 @@
+date = "2200-01-01T00:00:00Z"
+population_count = 20
+rate_of_time = 1.0
+transport_speeds_road = 50
+
+# some options to simulate faster
+fast_rate_of_time = 86400.0

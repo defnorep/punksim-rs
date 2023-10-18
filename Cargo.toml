@@ -6,14 +6,17 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-askama = "0.12.1"
+askama = { version = "0.12.1" }
+askama-filters = { version = "0.1.3", features = ["date"] }
 bevy = { version = "0.11.0", features = ["dynamic_linking"] }
-chrono = "0.4.31"
+chrono = { version = "0.4.31", features = ["serde"] }
 flume = { version = "0.11.0" }
 futures-util = "0.3.28"
 rouille = "3.6.2"
+serde = "1.0.189"
 tokio = { version = "1", features = ["full"] }
 tokio-tungstenite = "0.20.1"
+toml = "0.8.2"
 tungstenite = "0.20.1"
 
 

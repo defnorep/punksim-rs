@@ -1,0 +1,73 @@
+[graph.nodes.Residence-1]
+label = "Critical Heights Apartments"
+metadata = {}
+
+[graph.nodes.Residence-2]
+label = "Capsule Condominiums"
+metadata = {}
+
+[graph.nodes.Work-1]
+label = "Underlink Central Office"
+metadata = {}
+
+[graph.nodes.Work-2]
+label = "Multibyte Semiconductor"
+metadata = {}
+
+[graph.nodes.Plaza-1]
+label = "Glorious Executive Plaza"
+metadata = {}
+
+[[graph.edges]]
+source = "Residence-1"
+target = "Work-1"
+relation = "Road"
+directed = false
+
+[graph.edges.metadata]
+distance = 500
+
+[[graph.edges]]
+source = "Residence-1"
+target = "Work-2"
+relation = "Road"
+directed = false
+
+[graph.edges.metadata]
+distance = 1_000
+
+[[graph.edges]]
+source = "Plaza-1"
+target = "Residence-1"
+relation = "Road"
+directed = false
+
+[graph.edges.metadata]
+distance = 1_500
+
+[[graph.edges]]
+source = "Plaza-1"
+target = "Residence-2"
+relation = "Road"
+directed = false
+
+[graph.edges.metadata]
+distance = 1_500
+
+[[graph.edges]]
+source = "Plaza-1"
+target = "Work-1"
+relation = "Road"
+directed = false
+
+[graph.edges.metadata]
+distance = 2_000
+
+[[graph.edges]]
+source = "Plaza-1"
+target = "Work-2"
+relation = "Road"
+directed = false
+
+[graph.edges.metadata]
+distance = 1_000

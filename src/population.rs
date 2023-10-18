@@ -1,6 +1,7 @@
 use crate::global::{Dimensions, Kilograms, Years};
 use bevy::prelude::Component;
 use chrono::{DateTime, Utc};
+use serde::Deserialize;
 
 #[derive(Component)]
 pub struct CivicIdentity {
@@ -63,4 +64,24 @@ pub struct Census {
     living: u32,
     dead: u32,
     missing: u32,
+}
+
+#[derive(Deserialize)]
+pub struct Disorder {
+    name: String,
+    description: String,
+    adjective: String,
+    variant: DisorderVariant,
+}
+
+#[derive(Deserialize)]
+enum DisorderVariant {
+    Mental,
+    Physical,
+}
+
+#[derive(Deserialize)]
+pub struct Implant {
+    name: String,
+    description: String,
 }
