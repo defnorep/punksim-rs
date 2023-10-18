@@ -9,10 +9,6 @@ struct ClockTemplate {
     datetime: DateTime<Utc>,
 }
 
-pub fn clock_advance(delta: Res<Time>, mut time: ResMut<Clock>) {
-    time.0 += delta.delta();
-}
-
 pub fn clock_ui(time: Res<Clock>, tx: Res<SendChannel>) {
     let html = ClockTemplate { datetime: time.0 }.render().unwrap();
     tx.0.send(html)

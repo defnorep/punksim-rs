@@ -1,22 +1,21 @@
 mod global;
 mod net;
+mod time;
 mod ui;
 
 use bevy::prelude::*;
-use chrono::{DateTime, Utc};
+use chrono::Utc;
 use flume::{Receiver, Sender};
 use net::{socket_startup::socket_startup, web_startup};
+use time::{clock_advance, Clock};
 use tokio::task;
-use ui::{clock_advance, clock_ui};
+use ui::clock_ui;
 
 #[derive(Resource)]
 struct SendChannel(Sender<String>);
 
 #[derive(Resource)]
 struct ReceiveChannel(Receiver<String>);
-
-#[derive(Resource)]
-struct Clock(DateTime<Utc>);
 
 const FIXED_TIMESTEP: f32 = 1.0;
 
@@ -38,7 +37,7 @@ async fn main() {
         .run();
 }
 
+// just here to serve as an example on how to send messages to the socket server.
 fn hello_world(tx: Res<SendChannel>) {
-    println!("{}", Utc::now().to_string());
     tx.0.send(Utc::now().to_string()).expect("Failed to send");
 }
