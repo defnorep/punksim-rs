@@ -68,17 +68,12 @@ impl Distribution<CivicIdentity> for Standard {
     fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> CivicIdentity {
         let names = data::names();
         let length = names.human.len() as f32;
-        let first_name_roll: f32 = rng.gen();
-        let last_name_roll: f32 = rng.gen();
-        let first_name_index = (first_name_roll * length).floor() as usize;
-        let last_name_index = (last_name_roll * length).floor() as usize;
-        let first_name = names.human.get(first_name_index).unwrap();
-        let last_name = names.human.get(last_name_index).unwrap();
+        let [roll1, roll2] = rng.gen::<[f32; 2]>().map(|r| (r * length).floor() as usize);
 
         CivicIdentity {
-            name: first_name.into(),
-            surname: last_name.into(),
-            status: rand::random(),
+            name: names.human.get(roll1).unwrap().into(),
+            surname: names.human.get(roll2).unwrap().into(),
+            status: Status::Living,
         }
     }
 }

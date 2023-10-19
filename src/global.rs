@@ -6,7 +6,7 @@ pub struct Meters(pub f32);
 
 impl Display for Meters {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.0)
+        write!(f, "{:.*}", 2, self.0)
     }
 }
 
@@ -15,7 +15,7 @@ pub struct Mass(pub f32);
 
 impl Display for Mass {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.0)
+        write!(f, "{:.*}", 2, self.0)
     }
 }
 
@@ -24,7 +24,7 @@ pub struct Years(pub f32);
 
 impl Display for Years {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.0)
+        write!(f, "{:.*}", 2, self.0)
     }
 }
 

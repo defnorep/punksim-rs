@@ -3,10 +3,9 @@ pub mod population_ui;
 pub mod sockets;
 pub mod web;
 
+use crate::population::CitizenBundle;
 use askama::Template;
 use chrono::{DateTime, Utc};
-
-use crate::population::CitizenBundle;
 
 #[derive(Template)]
 #[template(path = "partials/clock.html")]
