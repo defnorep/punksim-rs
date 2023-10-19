@@ -6,7 +6,6 @@ mod transport;
 mod ui;
 
 use bevy::prelude::*;
-use chrono::Utc;
 use flume::{Receiver, Sender};
 use population::citizen_seeder::citizen_seeder;
 use time::{clock_advance, Clock};
@@ -44,9 +43,4 @@ async fn main() {
         .add_systems(FixedUpdate, individuals_table)
         .insert_resource(FixedTime::new_from_secs(FIXED_TIMESTEP))
         .run();
-}
-
-// just here to serve as an example on how to send messages to the socket server.
-fn hello_world(tx: Res<SendChannel>) {
-    tx.0.send(Utc::now().to_string()).expect("Failed to send");
 }
