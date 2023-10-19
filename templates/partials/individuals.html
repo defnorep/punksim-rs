@@ -18,7 +18,7 @@
       <tr>
         <td>{{ i.civic_identity.name }}</td>
         <td>{{ i.civic_identity.surname }}</td>
-        <td>{{ i.epoch.age }}</td>
+        <td>{{ i.epoch.0|age(reference) }}</td>
         <td>{{ i.gender }}</td>
         <td>{{ i.dimensions.height }} m</td>
         <td>{{ i.mass }} kg</td>

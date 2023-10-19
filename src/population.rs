@@ -1,4 +1,4 @@
-pub(crate) mod citizen_seeder;
+pub(crate) mod population_seeding_system;
 
 use crate::{
     data,
@@ -36,10 +36,7 @@ impl CitizenBundle {
                 width: Meters(0.4), // default humanoid wideness
                 depth: Meters(0.2), // default humanoid... depth?
             },
-            epoch: Epoch {
-                age: Years(age),
-                epoch,
-            },
+            epoch: Epoch(epoch),
             gender: rand::random(),
             mass: Mass(rand::thread_rng().gen_range(70.0..=120.0)),
             species: rand::random(),
@@ -79,9 +76,12 @@ impl Distribution<CivicIdentity> for Standard {
 }
 
 #[derive(Component, Clone)]
-pub struct Epoch {
-    pub age: Years,
-    pub epoch: DateTime<Utc>,
+pub struct Epoch(pub DateTime<Utc>);
+
+impl Display for Epoch {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
 }
 
 #[derive(Component, Clone)]

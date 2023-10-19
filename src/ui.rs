@@ -21,6 +21,7 @@ struct LayoutTemplate {}
 #[template(path = "partials/individuals.html")]
 struct IndividualsTemplate {
     individuals: Vec<CitizenBundle>,
+    reference: DateTime<Utc>,
 }
 
 mod filters {
@@ -28,5 +29,10 @@ mod filters {
 
     pub fn date(s: &DateTime<Utc>, format: &str) -> ::askama::Result<String> {
         Ok(s.format(format).to_string())
+    }
+
+    pub fn age(comparison: &DateTime<Utc>, reference: &DateTime<Utc>) -> ::askama::Result<String> {
+        let age = reference.years_since(comparison.to_owned()).unwrap();
+        Ok(format!("{}", age))
     }
 }
