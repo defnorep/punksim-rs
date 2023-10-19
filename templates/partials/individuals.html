@@ -4,7 +4,6 @@
       <tr>
         <th>Name</th>
         <th>Surname</th>
-        <th>ID</th>
         <th>Age</th>
         <th>Gender</th>
         <th>Height</th>
@@ -16,18 +15,16 @@
     </thead>
     <tbody>
       {% for i in individuals  %}
-      {% let (id, epoch, gender, physical, lifeform, location) = i %}
       <tr>
-        <td>{{ id.name }}</td>
-        <td>{{ id.surname }}</td>
-        <td>{{ id.civicId }}</td>
-        <td>{{ epoch.age }}</td>
-        <td>{{ gender.gender }}</td>
-        <td>{{ physical.dimensions.height }} cm</td>
-        <td>{{ physical.mass }} kg</td>
-        <td>{{ lifeform.species }}</td>
-        <td>{{ id.status.toString() }}</td>
-        <td>{{ location.locationId }}</td>
+        <td>{{ i.civic_identity.name }}</td>
+        <td>{{ i.civic_identity.surname }}</td>
+        <td>{{ i.epoch.age }}</td>
+        <td>{{ i.gender }}</td>
+        <td>{{ i.dimensions.height }} cm</td>
+        <td>{{ i.mass }} kg</td>
+        <td>{{ i.species }}</td>
+        <td>{{ i.civic_identity.status }}</td>
+        <td>{{ i.location }}</td>
       </tr>
       {% endfor %}
     </tbody>

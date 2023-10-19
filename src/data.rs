@@ -1,5 +1,6 @@
 use crate::population::{Disorder, Implant};
 use crate::transport::TransportNetwork;
+use bevy::prelude::Resource;
 use bevy::utils::HashMap;
 use chrono::{DateTime, Utc};
 use serde::{de::DeserializeOwned, Deserialize};
@@ -7,17 +8,17 @@ use std::fs;
 
 #[derive(Deserialize)]
 pub struct Names {
-    elements: Vec<String>,
-    human: Vec<String>,
+    pub elements: Vec<String>,
+    pub human: Vec<String>,
 }
 
-#[derive(Deserialize)]
+#[derive(Resource, Deserialize)]
 pub struct Seed {
     pub date: DateTime<Utc>,
-    population_count: u32,
-    rate_of_time: f32,
-    transport_speeds_road: f32,
-    fast_rate_of_time: f32,
+    pub population_count: u32,
+    pub rate_of_time: f32,
+    pub transport_speeds_road: f32,
+    pub fast_rate_of_time: f32,
 }
 
 #[derive(Deserialize)]

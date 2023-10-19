@@ -1,55 +1,176 @@
-use crate::global::{Dimensions, Kilograms, Years};
-use bevy::prelude::Component;
+pub(crate) mod citizen_seeder;
+
+use crate::{
+    data,
+    global::{Dimensions, Mass, Meters, Years},
+};
+use bevy::prelude::{Bundle, Component};
 use chrono::{DateTime, Utc};
+use rand::{
+    distributions::{Distribution, Standard},
+    Rng,
+};
 use serde::Deserialize;
+use std::fmt::Display;
 
-#[derive(Component)]
+#[derive(Bundle)]
+pub struct CitizenBundle {
+    pub civic_identity: CivicIdentity,
+    pub dimensions: Dimensions,
+    pub epoch: Epoch,
+    pub gender: Gender,
+    pub mass: Mass,
+    pub species: Species,
+    pub location: Location,
+}
+
+impl CitizenBundle {
+    pub fn random(reference: DateTime<Utc>, max_age: f32) -> CitizenBundle {
+        let age = rand::thread_rng().gen_range(0.0..=max_age);
+        let epoch = reference - chrono::Duration::days(age as i64 * 365);
+
+        CitizenBundle {
+            civic_identity: rand::random(),
+            dimensions: Dimensions {
+                height: Meters(rand::thread_rng().gen_range(1.5..=1.9)),
+                width: Meters(0.4), // default humanoid wideness
+                depth: Meters(0.2), // default humanoid... depth?
+            },
+            epoch: Epoch {
+                age: Years(age),
+                epoch,
+            },
+            gender: rand::random(),
+            mass: Mass(rand::thread_rng().gen_range(70.0..=120.0)),
+            species: rand::random(),
+            location: Location("Residence-1".into()),
+        }
+    }
+}
+
+#[derive(Component, Clone)]
+pub struct Location(pub String);
+
+impl Display for Location {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+#[derive(Component, Clone)]
 pub struct CivicIdentity {
-    civic_id: String,
-    name: String,
-    surname: String,
-    status: Status,
+    pub name: String,
+    pub status: Status,
+    pub surname: String,
 }
 
-#[derive(Component)]
+impl Distribution<CivicIdentity> for Standard {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> CivicIdentity {
+        let names = data::names();
+        let length = names.human.len() as f32;
+        let first_name_roll: f32 = rng.gen();
+        let last_name_roll: f32 = rng.gen();
+        let first_name_index = (first_name_roll * length).floor() as usize;
+        let last_name_index = (last_name_roll * length).floor() as usize;
+        let first_name = names.human.get(first_name_index).unwrap();
+        let last_name = names.human.get(last_name_index).unwrap();
+
+        CivicIdentity {
+            name: first_name.into(),
+            surname: last_name.into(),
+            status: rand::random(),
+        }
+    }
+}
+
+#[derive(Component, Clone)]
 pub struct Epoch {
-    age: Years,
-    epoch: DateTime<Utc>,
+    pub age: Years,
+    pub epoch: DateTime<Utc>,
 }
 
-#[derive(Component)]
-pub struct LifeformClassification {
-    species: Species,
-}
-
-#[derive(Component)]
-pub struct Physical {
-    dimensions: Dimensions,
-    mass: Kilograms,
-}
-
-#[derive(Component)]
-pub struct SexualIdentity {
-    gender: Gender,
-}
-
+#[derive(Component, Clone)]
 pub enum Species {
     Human,
     Android,
 }
 
+impl Distribution<Species> for Standard {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Species {
+        match rng.gen_range(0..=1) {
+            0 => Species::Android,
+            _ => Species::Human,
+        }
+    }
+}
+
+impl Display for Species {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Species::Human => write!(f, "Human"),
+            Species::Android => write!(f, "Android"),
+        }
+    }
+}
+
+#[derive(Component, Clone)]
 pub enum Status {
-    Alive,
-    Dead,
+    Living,
+    Deceased,
     Missing,
     Unknown,
 }
 
+impl Distribution<Status> for Standard {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Status {
+        match rng.gen_range(0..=3) {
+            0 => Status::Living,
+            1 => Status::Deceased,
+            2 => Status::Missing,
+            _ => Status::Unknown,
+        }
+    }
+}
+
+impl Display for Status {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Status::Living => write!(f, "Living"),
+            Status::Deceased => write!(f, "Deceased"),
+            Status::Missing => write!(f, "Missing"),
+            Status::Unknown => write!(f, "Unknown"),
+        }
+    }
+}
+
+#[derive(Component, Clone)]
 pub enum Gender {
     Male,
     Female,
     NonBinary,
     None,
+}
+
+impl Distribution<Gender> for Standard {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Gender {
+        match rng.gen_range(0..=3) {
+            0 => Gender::Male,
+            1 => Gender::Female,
+            2 => Gender::NonBinary,
+            _ => Gender::None,
+        }
+    }
+}
+
+impl Display for Gender {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Gender::Male => write!(f, "Male"),
+            Gender::Female => write!(f, "Female"),
+            Gender::NonBinary => write!(f, "Non-Binary"),
+            Gender::None => write!(f, "None"),
+        }
+    }
 }
 
 // this might make more sense to have as a resource than a component, we'll see.
@@ -68,20 +189,20 @@ pub struct Census {
 
 #[derive(Deserialize)]
 pub struct Disorder {
-    name: String,
-    description: String,
-    adjective: String,
-    variant: DisorderVariant,
+    pub name: String,
+    pub description: String,
+    pub adjective: String,
+    pub variant: DisorderVariant,
 }
 
 #[derive(Deserialize)]
-enum DisorderVariant {
+pub enum DisorderVariant {
     Mental,
     Physical,
 }
 
 #[derive(Deserialize)]
 pub struct Implant {
-    name: String,
-    description: String,
+    pub name: String,
+    pub description: String,
 }
