@@ -10,8 +10,8 @@ use population::population_seeding_system::population_seeding_system;
 use time::{clock_advance, Clock};
 use tokio::task;
 use ui::{
-    clock_ui::clock_ui, individuals_ui::individuals_table, sockets::socket_startup,
-    web::web_startup,
+    census_ui::census_table, clock_ui::clock_ui, individuals_ui::individuals_table,
+    sockets::socket_startup, web::web_startup,
 };
 
 extern crate pretty_env_logger;
@@ -45,7 +45,7 @@ async fn main() {
         .add_plugins(MinimalPlugins)
         .add_systems(Startup, population_seeding_system)
         .add_systems(Update, clock_advance)
-        .add_systems(FixedUpdate, (clock_ui, individuals_table))
+        .add_systems(FixedUpdate, (clock_ui, individuals_table, census_table))
         .insert_resource(FixedTime::new_from_secs(FIXED_TIMESTEP))
         .run();
 }

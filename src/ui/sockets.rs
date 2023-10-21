@@ -51,7 +51,7 @@ async fn handle_connection(
 
             match ws_stream.send(Message::Text(msg)).await {
                 Ok(_) => {
-                    debug!("Message sent to peer {}", peer);
+                    trace!("Message sent to peer {}", peer);
                 }
                 Err(Error::Io(e)) => {
                     warn!("WebSocket closing: {}, {}", e, peer);

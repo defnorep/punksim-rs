@@ -1,14 +1,18 @@
 <div id="census">
+  <h2>Census</h2>
   <table>
     <thead>
-      <caption style="text-align: left;">Population</caption>
       <tr>
         <th>Total</th>
         <th>Human</th>
         <th>Android</th>
         <th>Male</th>
         <th>Female</th>
+        <th>Non Binary</th>
         <th>No Gender</th>
+        <th>Living</th>
+        <th>Deceased</th>
+        <th>Missing</th>
       </tr>
     </thead>
     <tbody>
@@ -18,7 +22,11 @@
         <td>{{ android }}</td>
         <td>{{ male }}</td>
         <td>{{ female }}</td>
-        <td>{{ noGender }}</td>
+        <td>{{ non_binary }}</td>
+        <td>{{ ungendered }}</td>
+        <td>{{ living }}</td>
+        <td>{{ deceased }}</td>
+        <td>{{ missing }}</td>
       </tr>
     </tbody>
   </table>

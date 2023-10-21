@@ -182,16 +182,35 @@ impl Display for Gender {
 
 // this might make more sense to have as a resource than a component, we'll see.
 pub struct Census {
-    total: u32,
-    human: u32,
-    android: u32,
-    male: u32,
-    female: u32,
-    non_binary: u32,
-    ungendered: u32,
-    living: u32,
-    dead: u32,
-    missing: u32,
+    pub total: u32,
+    pub human: u32,
+    pub android: u32,
+    pub male: u32,
+    pub female: u32,
+    pub non_binary: u32,
+    pub ungendered: u32,
+    pub living: u32,
+    pub deceased: u32,
+    pub missing: u32,
+    pub unknown: u32,
+}
+
+impl Census {
+    pub fn empty() -> Census {
+        Census {
+            total: 0,
+            human: 0,
+            android: 0,
+            male: 0,
+            female: 0,
+            non_binary: 0,
+            ungendered: 0,
+            living: 0,
+            deceased: 0,
+            missing: 0,
+            unknown: 0,
+        }
+    }
 }
 
 #[derive(Deserialize)]
