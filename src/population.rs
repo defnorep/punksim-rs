@@ -170,7 +170,6 @@ impl Display for Gender {
     }
 }
 
-// this might make more sense to have as a resource than a component, we'll see.
 pub struct Census {
     pub total: u32,
     pub human: u32,
