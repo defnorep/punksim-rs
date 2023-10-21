@@ -4,7 +4,9 @@ use core::fmt::Display;
 
 const MIN_HUNGER: u32 = 0;
 const MAX_HUNGER: u32 = 100;
-const HUNGER_INTERVAL_HOURS: u32 = 4; // they should get hungry every 4 hours
+const HUNGRY_THRESH: u32 = 50;
+const STARVING_THRESH: u32 = 80;
+const HUNGER_INTERVAL_HOURS: u32 = 8; // they should get hungry every 4 hours
 
 #[derive(Component, Clone)]
 pub struct Hunger(u32);
@@ -29,13 +31,34 @@ impl Hunger {
     pub fn value(&self) -> u32 {
         self.0
     }
+
+    pub fn level(&self) -> HungerLevel {
+        match self.0 {
+            STARVING_THRESH..=MAX_HUNGER => HungerLevel::Starving,
+            HUNGRY_THRESH..=STARVING_THRESH => HungerLevel::Hungry,
+            _ => HungerLevel::Satisfied,
+        }
+    }
 }
 
 impl Display for Hunger {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}%", self.0)
+        match self.level() {
+            HungerLevel::Starving => write!(f, "Starving"),
+            HungerLevel::Hungry => write!(f, "Hungry"),
+            HungerLevel::Satisfied => write!(f, "Satisfied"),
+        }
     }
 }
+
+pub enum HungerLevel {
+    Starving,
+    Hungry,
+    Satisfied,
+}
+
+#[derive(Component)]
+pub struct Starving;
 
 #[derive(Resource)]
 pub struct HungerTimer(Timer);
@@ -49,16 +72,26 @@ pub fn hunger_setup(mut commands: Commands) {
 }
 
 pub fn hunger_advance(
+    mut commands: Commands,
     time: Res<Time>,
     mut hunger_timer: ResMut<HungerTimer>,
-    mut query: Query<(&Alive, &mut Hunger)>,
+    mut query: Query<(Entity, &Alive, &mut Hunger)>,
 ) {
     hunger_timer.0.tick(time.delta());
 
     if hunger_timer.0.finished() {
-        for (alive, mut hunger) in query.iter_mut() {
+        for (entity, alive, mut hunger) in query.iter_mut() {
             match alive {
-                Alive::Alive => hunger.increase(1),
+                Alive::Alive => {
+                    hunger.increase(1);
+
+                    match hunger.level() {
+                        HungerLevel::Starving => {
+                            commands.entity(entity).insert(Starving);
+                        }
+                        _ => {}
+                    }
+                }
                 _ => {}
             }
         }
