@@ -43,5 +43,5 @@ pub fn individuals_table(
     .render()
     .unwrap();
     tx.0.send(html)
-        .expect("Failed to send time through clock_ui channel");
+        .expect("Failed to send population data through population_ui channel");
 }
