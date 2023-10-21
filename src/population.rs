@@ -2,7 +2,7 @@ pub(crate) mod population_seeding_system;
 
 use crate::{
     data,
-    global::{Dimensions, Mass, Meters, Years},
+    global::{Dimensions, Mass, Meters},
 };
 use bevy::prelude::{Bundle, Component};
 use chrono::{DateTime, Utc};
