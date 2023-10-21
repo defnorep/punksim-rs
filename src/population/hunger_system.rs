@@ -1,3 +1,4 @@
+use super::Alive;
 use bevy::prelude::*;
 use core::fmt::Display;
 
@@ -15,6 +16,14 @@ impl Hunger {
 
     pub fn increase(&mut self, amount: u32) {
         self.0 = (self.0 + amount).clamp(MIN_HUNGER, MAX_HUNGER);
+    }
+
+    pub fn reduce(&mut self, amount: u32) {
+        if amount > self.0 {
+            self.0 = 0; // can't go below 0 with unsigned integers when subtracting; rust will panic
+        } else {
+            self.0 = (self.0 - amount).clamp(MIN_HUNGER, MAX_HUNGER);
+        }
     }
 
     pub fn value(&self) -> u32 {
@@ -42,13 +51,16 @@ pub fn hunger_setup(mut commands: Commands) {
 pub fn hunger_advance(
     time: Res<Time>,
     mut hunger_timer: ResMut<HungerTimer>,
-    mut query: Query<&mut Hunger>,
+    mut query: Query<(&Alive, &mut Hunger)>,
 ) {
     hunger_timer.0.tick(time.delta());
 
     if hunger_timer.0.finished() {
-        for mut hunger in query.iter_mut() {
-            hunger.increase(1);
+        for (alive, mut hunger) in query.iter_mut() {
+            match alive {
+                Alive::Alive => hunger.increase(1),
+                _ => {}
+            }
         }
     }
 }
@@ -63,5 +75,9 @@ mod test {
         assert_eq!(hunger.value(), 50);
         hunger.increase(100);
         assert_eq!(hunger.value(), 100);
+        hunger.reduce(50);
+        assert_eq!(hunger.value(), 50);
+        hunger.reduce(100);
+        assert_eq!(hunger.value(), 0);
     }
 }

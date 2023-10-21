@@ -17,6 +17,7 @@ use self::hunger_system::Hunger;
 
 #[derive(Bundle)]
 pub struct CitizenBundle {
+    pub alive: Alive,
     pub attributes: Attributes,
     pub civic_identity: CivicIdentity,
     pub dimensions: Dimensions,
@@ -33,6 +34,7 @@ impl CitizenBundle {
         let epoch = reference - chrono::Duration::days(age as i64 * 365);
 
         CitizenBundle {
+            alive: Alive::Alive,
             attributes: rand::random(),
             civic_identity: rand::random(),
             dimensions: Dimensions {
@@ -73,7 +75,6 @@ impl Distribution<Attributes> for Standard {
 #[derive(Component, Clone)]
 pub struct CivicIdentity {
     pub name: String,
-    pub status: Status,
     pub surname: String,
 }
 
@@ -86,7 +87,6 @@ impl Distribution<CivicIdentity> for Standard {
         CivicIdentity {
             name: names.human.get(roll1).unwrap().into(),
             surname: names.human.get(roll2).unwrap().into(),
-            status: Status::Living,
         }
     }
 }
@@ -116,31 +116,28 @@ impl Display for Species {
 }
 
 #[derive(Component, Clone)]
-pub enum Status {
-    Living,
+pub enum Alive {
+    Alive,
     Deceased,
-    Missing,
     Unknown,
 }
 
-impl Distribution<Status> for Standard {
-    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Status {
-        match rng.gen_range(0..=3) {
-            0 => Status::Living,
-            1 => Status::Deceased,
-            2 => Status::Missing,
-            _ => Status::Unknown,
+impl Distribution<Alive> for Standard {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Alive {
+        match rng.gen_range(0..=2) {
+            0 => Alive::Alive,
+            1 => Alive::Deceased,
+            _ => Alive::Unknown,
         }
     }
 }
 
-impl Display for Status {
+impl Display for Alive {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Status::Living => write!(f, "Living"),
-            Status::Deceased => write!(f, "Deceased"),
-            Status::Missing => write!(f, "Missing"),
-            Status::Unknown => write!(f, "Unknown"),
+            Alive::Alive => write!(f, "Alive"),
+            Alive::Deceased => write!(f, "Deceased"),
+            Alive::Unknown => write!(f, "Unknown"),
         }
     }
 }

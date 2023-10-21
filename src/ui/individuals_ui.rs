@@ -2,7 +2,7 @@ use super::IndividualsTemplate;
 use crate::{
     global::{Dimensions, Epoch, Mass},
     population::{
-        hunger_system::Hunger, Attributes, CitizenBundle, CivicIdentity, Gender, Species,
+        hunger_system::Hunger, Alive, Attributes, CitizenBundle, CivicIdentity, Gender, Species,
     },
     time::Clock,
     SendChannel,
@@ -14,6 +14,7 @@ pub fn individuals_table(
     tx: Res<SendChannel>,
     clock: Res<Clock>,
     query: Query<(
+        &Alive,
         &Attributes,
         &CivicIdentity,
         &Dimensions,
@@ -27,7 +28,8 @@ pub fn individuals_table(
     let individuals: Vec<CitizenBundle> = query
         .into_iter()
         .map(
-            |(attr, id, dim, epoch, gender, hunger, mass, species)| CitizenBundle {
+            |(alive, attr, id, dim, epoch, gender, hunger, mass, species)| CitizenBundle {
+                alive: alive.clone(),
                 attributes: attr.clone(),
                 civic_identity: id.clone(),
                 dimensions: dim.clone(),
