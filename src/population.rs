@@ -1,3 +1,4 @@
+pub mod hunger_system;
 pub(crate) mod population_seeding_system;
 
 use crate::{
@@ -12,6 +13,8 @@ use rand::{
 };
 use std::fmt::Display;
 
+use self::hunger_system::Hunger;
+
 #[derive(Bundle)]
 pub struct CitizenBundle {
     pub attributes: Attributes,
@@ -19,6 +22,7 @@ pub struct CitizenBundle {
     pub dimensions: Dimensions,
     pub epoch: Epoch,
     pub gender: Gender,
+    pub hunger: Hunger,
     pub mass: Mass,
     pub species: Species,
 }
@@ -38,6 +42,7 @@ impl CitizenBundle {
             },
             epoch: Epoch(epoch),
             gender: rand::random(),
+            hunger: Hunger::new(),
             mass: Mass(rand::thread_rng().gen_range(70.0..=120.0)),
             species: rand::random(),
         }
