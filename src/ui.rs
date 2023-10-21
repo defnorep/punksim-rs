@@ -1,5 +1,5 @@
 pub mod clock_ui;
-pub mod population_ui;
+pub mod individuals_ui;
 pub mod sockets;
 pub mod web;
 

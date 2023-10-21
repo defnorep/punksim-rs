@@ -10,7 +10,8 @@ use population::population_seeding_system::population_seeding_system;
 use time::{clock_advance, Clock};
 use tokio::task;
 use ui::{
-    clock_ui::clock_ui, population_ui::individuals_table, sockets::socket_startup, web::web_startup,
+    clock_ui::clock_ui, individuals_ui::individuals_table, sockets::socket_startup,
+    web::web_startup,
 };
 
 #[derive(Resource)]

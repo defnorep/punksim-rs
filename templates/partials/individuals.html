@@ -11,6 +11,11 @@
         <th>Species</th>
         <th>Status</th>
         <th>Location</th>
+        <th><sl-tooltip content="Charisma" placement="top"><span>Chr</span></sl-tooltip></th>
+        <th><sl-tooltip content="Determination" placement="top"><span>Det</span></sl-tooltip></th>
+        <th><sl-tooltip content="Intelligence" placement="top"><span>Int</span></sl-tooltip></th>
+        <th><sl-tooltip content="Speed" placement="top"><span>Spd</span></sl-tooltip></th>
+        <th><sl-tooltip content="Strength" placement="top"><span>Str</span></sl-tooltip></th>
       </tr>
     </thead>
     <tbody>
@@ -25,6 +30,11 @@
         <td>{{ i.species }}</td>
         <td>{{ i.civic_identity.status }}</td>
         <td>{{ i.location }}</td>
+        <td>{{ i.attributes.charisma }}</td>
+        <td>{{ i.attributes.determination }}</td>
+        <td>{{ i.attributes.intelligence }}</td>
+        <td>{{ i.attributes.speed }}</td>
+        <td>{{ i.attributes.strength }}</td>
       </tr>
       {% endfor %}
     </tbody>

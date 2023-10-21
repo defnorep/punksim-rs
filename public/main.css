@@ -1,3 +1,20 @@
 body {
   font-family: var(--sl-font-sans);
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: none;
+}
+
+table td {
+  padding: .3em;
+}
+
+table tr:nth-child(even) {
+  background-color: #333;
+}
