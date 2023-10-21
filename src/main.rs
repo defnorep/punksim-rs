@@ -14,6 +14,10 @@ use ui::{
     web::web_startup,
 };
 
+extern crate pretty_env_logger;
+#[macro_use]
+extern crate log;
+
 #[derive(Resource)]
 struct SendChannel(Sender<String>);
 
@@ -24,6 +28,8 @@ const FIXED_TIMESTEP: f32 = 1.0;
 
 #[tokio::main]
 async fn main() {
+    pretty_env_logger::init();
+
     let (tx, rx) = flume::unbounded();
 
     task::spawn(socket_startup(rx));

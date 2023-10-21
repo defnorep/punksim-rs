@@ -10,17 +10,21 @@ use tungstenite::Message;
 
 pub async fn socket_startup(rx: Receiver<String>) {
     let listener = TcpListener::bind("127.0.0.1:3001").await.unwrap();
+    debug!(
+        "Socket server listening on: {}",
+        listener.local_addr().unwrap()
+    );
 
     while let Ok((stream, _)) = listener.accept().await {
         let peer = stream
             .peer_addr()
             .expect("connected streams should have a peer address");
-        println!("Peer address: {}", peer);
+        info!("Peer address: {}", peer);
 
         if let Err(e) = handle_connection(peer, stream, rx.clone()).await {
             match e {
                 Error::ConnectionClosed | Error::Protocol(_) | Error::Utf8 => (),
-                err => println!("Error processing connection: {}", err),
+                err => warn!("Error processing connection: {}", err),
             }
         }
     }
@@ -33,7 +37,7 @@ async fn handle_connection(
 ) -> Result<()> {
     let mut ws_stream = accept_async(stream).await.expect("Failed to accept");
 
-    println!("New WebSocket connection: {}", peer);
+    info!("New WebSocket connection: {}", peer);
 
     // this _seems_ like the right place to put this async task.
     tokio::spawn(async move {
@@ -43,16 +47,18 @@ async fn handle_connection(
         // messages sent, but ultimately this socket should share in the responsibility
         // of protecting our clients.
         loop {
-            let msg = rx.recv().unwrap();
+            let msg = rx.recv_async().await.unwrap();
 
             match ws_stream.send(Message::Text(msg)).await {
-                Ok(_) => (),
+                Ok(_) => {
+                    debug!("Message sent to peer {}", peer);
+                }
                 Err(Error::Io(e)) => {
-                    println!("WebSocket closing: {}, {}", e, peer);
+                    warn!("WebSocket closing: {}, {}", e, peer);
                     break;
                 }
                 Err(e) => {
-                    println!("Error sending message: {}, {}", e, peer);
+                    warn!("Error sending message: {}, {}", e, peer);
                     break;
                 }
             }
