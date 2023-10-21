@@ -1,4 +1,5 @@
 use bevy::ecs::component::Component;
+use chrono::{DateTime, Utc};
 use std::fmt::Display;
 
 #[derive(Component, Clone)]
@@ -33,4 +34,13 @@ pub struct Dimensions {
     pub height: Meters,
     pub width: Meters,
     pub depth: Meters,
+}
+
+#[derive(Component, Clone)]
+pub struct Epoch(pub DateTime<Utc>);
+
+impl Display for Epoch {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0)
+    }
 }

@@ -2,7 +2,7 @@ pub(crate) mod population_seeding_system;
 
 use crate::{
     data,
-    global::{Dimensions, Mass, Meters},
+    global::{Dimensions, Epoch, Mass, Meters},
 };
 use bevy::prelude::{Bundle, Component};
 use chrono::{DateTime, Utc};
@@ -10,7 +10,6 @@ use rand::{
     distributions::{Distribution, Standard},
     Rng,
 };
-use serde::Deserialize;
 use std::fmt::Display;
 
 #[derive(Bundle)]
@@ -84,15 +83,6 @@ impl Distribution<CivicIdentity> for Standard {
             surname: names.human.get(roll2).unwrap().into(),
             status: Status::Living,
         }
-    }
-}
-
-#[derive(Component, Clone)]
-pub struct Epoch(pub DateTime<Utc>);
-
-impl Display for Epoch {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.0)
     }
 }
 
@@ -211,24 +201,4 @@ impl Census {
             unknown: 0,
         }
     }
-}
-
-#[derive(Deserialize)]
-pub struct Disorder {
-    pub name: String,
-    pub description: String,
-    pub adjective: String,
-    pub variant: DisorderVariant,
-}
-
-#[derive(Deserialize)]
-pub enum DisorderVariant {
-    Mental,
-    Physical,
-}
-
-#[derive(Deserialize)]
-pub struct Implant {
-    pub name: String,
-    pub description: String,
 }

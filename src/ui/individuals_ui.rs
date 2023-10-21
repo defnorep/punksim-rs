@@ -1,7 +1,7 @@
 use super::IndividualsTemplate;
 use crate::{
-    global::{Dimensions, Mass},
-    population::{Attributes, CitizenBundle, CivicIdentity, Epoch, Gender, Species},
+    global::{Dimensions, Epoch, Mass},
+    population::{Attributes, CitizenBundle, CivicIdentity, Gender, Species},
     time::Clock,
     SendChannel,
 };
