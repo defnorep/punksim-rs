@@ -41,7 +41,7 @@ impl Display for Hunger {
 pub struct HungerTimer(Timer);
 
 pub fn hunger_setup(mut commands: Commands) {
-    let interval = (HUNGER_INTERVAL_HOURS * 60 * 60) / 100;
+    let interval = (HUNGER_INTERVAL_HOURS * 60 * 60) / MAX_HUNGER;
     commands.insert_resource(HungerTimer(Timer::from_seconds(
         interval as f32,
         TimerMode::Repeating,
