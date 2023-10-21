@@ -22,7 +22,6 @@ pub struct CitizenBundle {
     pub gender: Gender,
     pub mass: Mass,
     pub species: Species,
-    pub location: Location,
 }
 
 impl CitizenBundle {
@@ -42,7 +41,6 @@ impl CitizenBundle {
             gender: rand::random(),
             mass: Mass(rand::thread_rng().gen_range(70.0..=120.0)),
             species: rand::random(),
-            location: Location("Residence-1".into()),
         }
     }
 }
@@ -65,15 +63,6 @@ impl Distribution<Attributes> for Standard {
             speed: rng.gen_range(10..=15),
             strength: rng.gen_range(10..=15),
         }
-    }
-}
-
-#[derive(Component, Clone)]
-pub struct Location(pub String);
-
-impl Display for Location {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.0)
     }
 }
 
