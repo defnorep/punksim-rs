@@ -48,7 +48,7 @@ async fn handle_connection(
             match ws_stream.send(Message::Text(msg)).await {
                 Ok(_) => (),
                 Err(Error::Io(e)) => {
-                    println!("WebSocket closing: {}, {}", peer, e);
+                    println!("WebSocket closing: {}, {}", e, peer);
                     break;
                 }
                 Err(e) => {
