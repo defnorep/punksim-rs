@@ -44,8 +44,17 @@ async fn handle_connection(
         // of protecting our clients.
         loop {
             let msg = rx.recv().unwrap();
-            ws_stream.send(Message::Text(msg)).await.unwrap();
+
+            match ws_stream.send(Message::Text(msg)).await {
+                Ok(_) => (),
+                Err(e) => {
+                    println!("Error sending message: {}, {}", e, peer);
+                    break;
+                }
+            }
         }
+
+        println!("WebSocket connection closed: {}", peer)
     });
 
     Ok(())
