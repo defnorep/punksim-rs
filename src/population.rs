@@ -15,6 +15,7 @@ use std::fmt::Display;
 
 #[derive(Bundle)]
 pub struct CitizenBundle {
+    pub attributes: Attributes,
     pub civic_identity: CivicIdentity,
     pub dimensions: Dimensions,
     pub epoch: Epoch,
@@ -30,6 +31,7 @@ impl CitizenBundle {
         let epoch = reference - chrono::Duration::days(age as i64 * 365);
 
         CitizenBundle {
+            attributes: rand::random(),
             civic_identity: rand::random(),
             dimensions: Dimensions {
                 height: Meters(rand::thread_rng().gen_range(1.5..=1.9)),
@@ -41,6 +43,27 @@ impl CitizenBundle {
             mass: Mass(rand::thread_rng().gen_range(70.0..=120.0)),
             species: rand::random(),
             location: Location("Residence-1".into()),
+        }
+    }
+}
+
+#[derive(Component, Clone)]
+pub struct Attributes {
+    pub charisma: u16, // how well they can communicate, how well they can lead, manipulate, etc.
+    pub determination: u16, // how likely they are to stick to a task or give up
+    pub intelligence: u16, // how quickly they learn, maximum capacity for knowledge
+    pub speed: u16,    // movement speed, reaction time, how quickly they can process information
+    pub strength: u16, // physical strength, how much they can lift, how hard they can hit
+}
+
+impl Distribution<Attributes> for Standard {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Attributes {
+        Attributes {
+            charisma: rng.gen_range(10..=15),
+            determination: rng.gen_range(10..=15),
+            intelligence: rng.gen_range(10..=15),
+            speed: rng.gen_range(10..=15),
+            strength: rng.gen_range(10..=15),
         }
     }
 }
