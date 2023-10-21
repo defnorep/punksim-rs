@@ -2,7 +2,6 @@ mod data;
 mod global;
 mod population;
 mod time;
-mod transport;
 mod ui;
 
 use bevy::prelude::*;

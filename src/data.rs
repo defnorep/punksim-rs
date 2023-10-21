@@ -1,5 +1,4 @@
 use crate::population::{Disorder, Implant};
-use crate::transport::TransportNetwork;
 use bevy::prelude::Resource;
 use bevy::utils::HashMap;
 use chrono::{DateTime, Utc};
@@ -25,11 +24,6 @@ pub struct Seed {
 pub struct Mods {
     implants: HashMap<String, Implant>,
     disorders: HashMap<String, Disorder>,
-}
-
-pub fn transport_network() -> TransportNetwork {
-    let datafile = read_datafile("transport_network.toml");
-    decode_datafile::<TransportNetwork>(datafile)
 }
 
 pub fn names() -> Names {
