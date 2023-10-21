@@ -1,6 +1,4 @@
-use crate::population::{Disorder, Implant};
 use bevy::prelude::Resource;
-use bevy::utils::HashMap;
 use chrono::{DateTime, Utc};
 use serde::{de::DeserializeOwned, Deserialize};
 use std::fs;
@@ -20,12 +18,6 @@ pub struct Seed {
     pub fast_rate_of_time: f32,
 }
 
-#[derive(Deserialize)]
-pub struct Mods {
-    implants: HashMap<String, Implant>,
-    disorders: HashMap<String, Disorder>,
-}
-
 pub fn names() -> Names {
     let datafile = read_datafile("names.toml");
     decode_datafile::<Names>(datafile)
@@ -34,11 +26,6 @@ pub fn names() -> Names {
 pub fn seed() -> Seed {
     let datafile = read_datafile("seed.toml");
     decode_datafile::<Seed>(datafile)
-}
-
-pub fn mods() -> Mods {
-    let datafile = read_datafile("mods.toml");
-    decode_datafile::<Mods>(datafile)
 }
 
 fn decode_datafile<T: DeserializeOwned>(datafile: String) -> T {
