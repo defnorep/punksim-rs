@@ -17,7 +17,7 @@ use self::hunger_system::Hunger;
 
 #[derive(Bundle)]
 pub struct CitizenBundle {
-    pub alive: Alive,
+    pub living_status: LivingStatus,
     pub attributes: Attributes,
     pub civic_identity: CivicIdentity,
     pub dimensions: Dimensions,
@@ -34,7 +34,7 @@ impl CitizenBundle {
         let epoch = reference - chrono::Duration::days(age as i64 * 365);
 
         CitizenBundle {
-            alive: Alive::Alive,
+            living_status: LivingStatus::Alive,
             attributes: rand::random(),
             civic_identity: rand::random(),
             dimensions: Dimensions {
@@ -116,28 +116,28 @@ impl Display for Species {
 }
 
 #[derive(Component, Clone)]
-pub enum Alive {
+pub enum LivingStatus {
     Alive,
     Deceased,
     Unknown,
 }
 
-impl Distribution<Alive> for Standard {
-    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Alive {
+impl Distribution<LivingStatus> for Standard {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> LivingStatus {
         match rng.gen_range(0..=2) {
-            0 => Alive::Alive,
-            1 => Alive::Deceased,
-            _ => Alive::Unknown,
+            0 => LivingStatus::Alive,
+            1 => LivingStatus::Deceased,
+            _ => LivingStatus::Unknown,
         }
     }
 }
 
-impl Display for Alive {
+impl Display for LivingStatus {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Alive::Alive => write!(f, "Alive"),
-            Alive::Deceased => write!(f, "Deceased"),
-            Alive::Unknown => write!(f, "Unknown"),
+            LivingStatus::Alive => write!(f, "Alive"),
+            LivingStatus::Deceased => write!(f, "Deceased"),
+            LivingStatus::Unknown => write!(f, "Unknown"),
         }
     }
 }

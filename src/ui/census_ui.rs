@@ -1,6 +1,6 @@
 use super::CensusTemplate;
 use crate::{
-    population::{Alive, Census, CivicIdentity, Gender, Species},
+    population::{Census, CivicIdentity, Gender, LivingStatus, Species},
     SendChannel,
 };
 use askama::Template;
@@ -8,7 +8,7 @@ use bevy::prelude::*;
 
 pub fn census_table(
     tx: Res<SendChannel>,
-    query: Query<(&CivicIdentity, &Alive, &Gender, &Species)>,
+    query: Query<(&CivicIdentity, &LivingStatus, &Gender, &Species)>,
 ) {
     let census =
         query
@@ -26,9 +26,9 @@ pub fn census_table(
                     Gender::None => acc.ungendered += 1,
                 }
                 match alive {
-                    Alive::Alive => acc.living += 1,
-                    Alive::Deceased => acc.deceased += 1,
-                    Alive::Unknown => acc.unknown += 1,
+                    LivingStatus::Alive => acc.living += 1,
+                    LivingStatus::Deceased => acc.deceased += 1,
+                    LivingStatus::Unknown => acc.unknown += 1,
                 }
 
                 return acc;

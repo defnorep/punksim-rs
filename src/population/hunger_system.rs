@@ -1,4 +1,4 @@
-use super::Alive;
+use super::LivingStatus;
 use bevy::prelude::*;
 use core::fmt::Display;
 
@@ -6,7 +6,7 @@ const MIN_HUNGER: u32 = 0;
 const MAX_HUNGER: u32 = 100;
 const HUNGRY_THRESH: u32 = 50;
 const STARVING_THRESH: u32 = 80;
-const HUNGER_INTERVAL_HOURS: u32 = 8; // they should get hungry every 4 hours
+const HUNGER_INTERVAL_HOURS: u32 = 8; // they should get hungry every 8 hours
 
 #[derive(Component, Clone)]
 pub struct Hunger(u32);
@@ -75,14 +75,14 @@ pub fn hunger_advance(
     mut commands: Commands,
     time: Res<Time>,
     mut hunger_timer: ResMut<HungerTimer>,
-    mut query: Query<(Entity, &Alive, &mut Hunger)>,
+    mut query: Query<(Entity, &LivingStatus, &mut Hunger)>,
 ) {
     hunger_timer.0.tick(time.delta());
 
     if hunger_timer.0.finished() {
         for (entity, alive, mut hunger) in query.iter_mut() {
             match alive {
-                Alive::Alive => {
+                LivingStatus::Alive => {
                     hunger.increase(1);
 
                     match hunger.level() {
