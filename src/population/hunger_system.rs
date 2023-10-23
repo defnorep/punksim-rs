@@ -1,3 +1,5 @@
+use crate::data::Seed;
+
 use super::LivingStatus;
 use bevy::prelude::*;
 use core::fmt::Display;
@@ -74,10 +76,13 @@ pub fn hunger_setup(mut commands: Commands) {
 pub fn hunger_advance(
     mut commands: Commands,
     time: Res<Time>,
+    seed: Res<Seed>,
     mut hunger_timer: ResMut<HungerTimer>,
     mut query: Query<(Entity, &LivingStatus, &mut Hunger)>,
 ) {
-    hunger_timer.0.tick(time.delta());
+    hunger_timer
+        .0
+        .tick(time.delta().mul_f32(seed.time_multiplier));
 
     if hunger_timer.0.finished() {
         for (entity, alive, mut hunger) in query.iter_mut() {

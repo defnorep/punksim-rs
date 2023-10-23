@@ -13,28 +13,31 @@ pub struct Names {
 pub struct Seed {
     pub date: DateTime<Utc>,
     pub population_count: u32,
-    pub rate_of_time: f32,
-    pub transport_speeds_road: f32,
-    pub rate_of_time_minute_per_second: f32,
-    pub rate_of_time_hour_per_second: f32,
-    pub rate_of_time_day_per_second: f32,
+    pub time_multiplier: f32,
 }
 
 pub fn names() -> Names {
-    let datafile = read_datafile("names.toml");
-    decode_datafile::<Names>(datafile)
+    let datafile = read_datafile("names.toml").unwrap();
+    decode_datafile::<Names>(datafile).unwrap()
 }
 
 pub fn seed() -> Seed {
-    let datafile = read_datafile("seed.toml");
-    decode_datafile::<Seed>(datafile)
+    match read_datafile("seed.override.toml") {
+        Ok(datafile_override) => {
+            return decode_datafile::<Seed>(datafile_override).unwrap();
+        }
+        Err(_) => {
+            let datafile = read_datafile("seed.toml").unwrap();
+            return decode_datafile::<Seed>(datafile).unwrap();
+        }
+    }
 }
 
-fn decode_datafile<T: DeserializeOwned>(datafile: String) -> T {
-    toml::from_str::<T>(&datafile).unwrap()
+fn decode_datafile<T: DeserializeOwned>(datafile: String) -> Result<T, toml::de::Error> {
+    toml::from_str::<T>(&datafile)
 }
 
-fn read_datafile(path: &str) -> String {
+fn read_datafile(path: &str) -> Result<String, std::io::Error> {
     let filename = format!("data/{}", path);
-    fs::read_to_string(filename).expect("Unable to read the provided datafile")
+    fs::read_to_string(filename)
 }
