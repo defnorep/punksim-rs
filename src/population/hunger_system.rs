@@ -1,6 +1,6 @@
 use crate::data::Seed;
 
-use super::LivingStatus;
+use super::Vitals;
 use bevy::prelude::*;
 use core::fmt::Display;
 
@@ -78,7 +78,7 @@ pub fn hunger_advance(
     time: Res<Time>,
     seed: Res<Seed>,
     mut hunger_timer: ResMut<HungerTimer>,
-    mut query: Query<(Entity, &LivingStatus, &mut Hunger)>,
+    mut query: Query<(Entity, &Vitals, &mut Hunger)>,
 ) {
     hunger_timer
         .0
@@ -87,7 +87,7 @@ pub fn hunger_advance(
     if hunger_timer.0.finished() {
         for (entity, alive, mut hunger) in query.iter_mut() {
             match alive {
-                LivingStatus::Alive => {
+                Vitals::Alive => {
                     hunger.increase(1);
 
                     match hunger.level() {

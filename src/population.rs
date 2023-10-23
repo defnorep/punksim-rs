@@ -16,7 +16,7 @@ use std::fmt::Display;
 
 #[derive(Bundle)]
 pub struct CitizenBundle {
-    pub living_status: LivingStatus,
+    pub vitals: Vitals,
     pub attributes: Attributes,
     pub civic_identity: CivicIdentity,
     pub dimensions: Dimensions,
@@ -33,7 +33,7 @@ impl CitizenBundle {
         let epoch = reference - chrono::Duration::days(age as i64 * 365);
 
         CitizenBundle {
-            living_status: LivingStatus::Alive,
+            vitals: Vitals::Alive,
             attributes: rand::random(),
             civic_identity: rand::random(),
             dimensions: Dimensions {
@@ -115,28 +115,28 @@ impl Display for Physiology {
 }
 
 #[derive(Component, Clone)]
-pub enum LivingStatus {
+pub enum Vitals {
     Alive,
     Deceased,
     Unknown,
 }
 
-impl Distribution<LivingStatus> for Standard {
-    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> LivingStatus {
+impl Distribution<Vitals> for Standard {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Vitals {
         match rng.gen_range(0..=2) {
-            0 => LivingStatus::Alive,
-            1 => LivingStatus::Deceased,
-            _ => LivingStatus::Unknown,
+            0 => Vitals::Alive,
+            1 => Vitals::Deceased,
+            _ => Vitals::Unknown,
         }
     }
 }
 
-impl Display for LivingStatus {
+impl Display for Vitals {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            LivingStatus::Alive => write!(f, "Alive"),
-            LivingStatus::Deceased => write!(f, "Deceased"),
-            LivingStatus::Unknown => write!(f, "Unknown"),
+            Vitals::Alive => write!(f, "Alive"),
+            Vitals::Deceased => write!(f, "Deceased"),
+            Vitals::Unknown => write!(f, "Unknown"),
         }
     }
 }
