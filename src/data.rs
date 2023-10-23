@@ -15,7 +15,9 @@ pub struct Seed {
     pub population_count: u32,
     pub rate_of_time: f32,
     pub transport_speeds_road: f32,
-    pub fast_rate_of_time: f32,
+    pub rate_of_time_minute_per_second: f32,
+    pub rate_of_time_hour_per_second: f32,
+    pub rate_of_time_day_per_second: f32,
 }
 
 pub fn names() -> Names {

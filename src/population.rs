@@ -1,6 +1,7 @@
 pub mod hunger_system;
 pub(crate) mod population_seeding_system;
 
+use self::hunger_system::Hunger;
 use crate::{
     data,
     global::{Dimensions, Epoch, Mass, Meters},
@@ -12,8 +13,6 @@ use rand::{
     Rng,
 };
 use std::fmt::Display;
-
-use self::hunger_system::Hunger;
 
 #[derive(Bundle)]
 pub struct CitizenBundle {

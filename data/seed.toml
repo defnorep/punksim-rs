@@ -4,4 +4,6 @@ rate_of_time = 1.0
 transport_speeds_road = 50
 
 # some options to simulate faster
-fast_rate_of_time = 86400.0
+rate_of_time_minute_per_second = 60.0
+rate_of_time_hour_per_second = 3600
+rate_of_time_day_per_second = 86400.0

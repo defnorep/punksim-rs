@@ -1,33 +1,20 @@
 <div id="census">
   <h2>Census</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Total</th>
-        <th>Human</th>
-        <th>Android</th>
-        <th>Male</th>
-        <th>Female</th>
-        <th>Non Binary</th>
-        <th>No Gender</th>
-        <th>Living</th>
-        <th>Deceased</th>
-        <th>Missing</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ total }}</td>
-        <td>{{ human }}</td>
-        <td>{{ android }}</td>
-        <td>{{ male }}</td>
-        <td>{{ female }}</td>
-        <td>{{ non_binary }}</td>
-        <td>{{ ungendered }}</td>
-        <td>{{ living }}</td>
-        <td>{{ deceased }}</td>
-        <td>{{ missing }}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="container">
+    {% for set in sets %}
+    <div>
+      <h3>{{ set.0 }}</h3>
+      <table>
+        <tbody>
+          {% for item in set.1 %}
+          <tr>
+            <td>{{ item.0 }}</td>
+            <td>{{ item.1 }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div> 
+    {% endfor %}
+  </div>
 </div>

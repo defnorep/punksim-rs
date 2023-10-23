@@ -35,16 +35,32 @@ pub fn census_table(
             });
 
     let html = CensusTemplate {
-        total: census.total,
-        human: census.human,
-        android: census.android,
-        male: census.male,
-        female: census.female,
-        non_binary: census.non_binary,
-        ungendered: census.ungendered,
-        living: census.living,
-        deceased: census.deceased,
-        missing: census.missing,
+        sets: vec![
+            (
+                "Physiology".into(),
+                vec![
+                    ("Human".into(), census.human),
+                    ("Android".into(), census.android),
+                ],
+            ),
+            (
+                "Sexual Identity".into(),
+                vec![
+                    ("Male".into(), census.male),
+                    ("Female".into(), census.female),
+                    ("Non-Binary".into(), census.non_binary),
+                    ("Ungendered".into(), census.ungendered),
+                ],
+            ),
+            (
+                "Life Signs".into(),
+                vec![
+                    ("Living".into(), census.living),
+                    ("Deceased".into(), census.deceased),
+                    ("Unknown".into(), census.unknown),
+                ],
+            ),
+        ],
     }
     .render()
     .unwrap();
