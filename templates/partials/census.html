@@ -3,8 +3,8 @@
   <div class="container">
     {% for set in sets %}
     <div>
-      <h3>{{ set.0 }}</h3>
       <table>
+        <caption>{{set.0}}</caption>
         <tbody>
           {% for item in set.1 %}
           <tr>
