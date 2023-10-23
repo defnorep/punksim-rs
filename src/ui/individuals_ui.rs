@@ -3,7 +3,7 @@ use crate::{
     global::{Dimensions, Epoch, Mass},
     population::{
         hunger_system::Hunger, Attributes, CitizenBundle, CivicIdentity, Gender, LivingStatus,
-        Species,
+        Physiology,
     },
     time::Clock,
     SendChannel,
@@ -23,13 +23,13 @@ pub fn individuals_table(
         &Gender,
         &Hunger,
         &Mass,
-        &Species,
+        &Physiology,
     )>,
 ) {
     let individuals: Vec<CitizenBundle> = query
         .into_iter()
         .map(
-            |(alive, attr, id, dim, epoch, gender, hunger, mass, species)| CitizenBundle {
+            |(alive, attr, id, dim, epoch, gender, hunger, mass, physiology)| CitizenBundle {
                 living_status: alive.clone(),
                 attributes: attr.clone(),
                 civic_identity: id.clone(),
@@ -38,7 +38,7 @@ pub fn individuals_table(
                 gender: gender.clone(),
                 hunger: hunger.clone(),
                 mass: mass.clone(),
-                species: species.clone(),
+                physiology: physiology.clone(),
             },
         )
         .collect();

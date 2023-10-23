@@ -24,7 +24,7 @@ pub struct CitizenBundle {
     pub gender: Gender,
     pub hunger: Hunger,
     pub mass: Mass,
-    pub species: Species,
+    pub physiology: Physiology,
 }
 
 impl CitizenBundle {
@@ -45,7 +45,7 @@ impl CitizenBundle {
             gender: rand::random(),
             hunger: Hunger::new(),
             mass: Mass(rand::thread_rng().gen_range(70.0..=120.0)),
-            species: rand::random(),
+            physiology: rand::random(),
         }
     }
 }
@@ -91,25 +91,25 @@ impl Distribution<CivicIdentity> for Standard {
 }
 
 #[derive(Component, Clone)]
-pub enum Species {
+pub enum Physiology {
     Human,
     Android,
 }
 
-impl Distribution<Species> for Standard {
-    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Species {
+impl Distribution<Physiology> for Standard {
+    fn sample<R: Rng + ?Sized>(&self, rng: &mut R) -> Physiology {
         match rng.gen_range(0..=1) {
-            0 => Species::Android,
-            _ => Species::Human,
+            0 => Physiology::Android,
+            _ => Physiology::Human,
         }
     }
 }
 
-impl Display for Species {
+impl Display for Physiology {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Species::Human => write!(f, "Human"),
-            Species::Android => write!(f, "Android"),
+            Physiology::Human => write!(f, "Human"),
+            Physiology::Android => write!(f, "Android"),
         }
     }
 }
