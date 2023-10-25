@@ -54,8 +54,9 @@ impl CitizenBundle {
 pub struct Attributes {
     pub charisma: u16, // how well they can communicate, how well they can lead, manipulate, etc.
     pub determination: u16, // how likely they are to stick to a task or give up
+    pub ethics: u16, // how likely they are to do the right thing, how likely they are to do the wrong thing
     pub intelligence: u16, // how quickly they learn, maximum capacity for knowledge
-    pub speed: u16,    // movement speed, reaction time, how quickly they can process information
+    pub speed: u16,  // movement speed, reaction time, how quickly they can process information
     pub strength: u16, // physical strength, how much they can lift, how hard they can hit
 }
 
@@ -64,6 +65,7 @@ impl Distribution<Attributes> for Standard {
         Attributes {
             charisma: rng.gen_range(10..=15),
             determination: rng.gen_range(10..=15),
+            ethics: rng.gen_range(10..=15),
             intelligence: rng.gen_range(10..=15),
             speed: rng.gen_range(10..=15),
             strength: rng.gen_range(10..=15),
