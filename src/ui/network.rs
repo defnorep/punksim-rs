@@ -42,9 +42,17 @@ async fn handle_socket(mut socket: WebSocket, addr: SocketAddr, rx: Receiver<Str
     tracing::info!("ws client connected: {}:{}", addr.ip(), addr.port());
 
     loop {
-        let msg = rx.recv_async().await.unwrap();
-        tracing::debug!("msg -> {}:{} ({} bytes)", addr.ip(), addr.port(), msg.len());
-        socket.send(Message::Text(msg)).await.unwrap();
+        if let Ok(msg) = rx.recv_async().await {
+            tracing::debug!("msg -> {}:{} ({} bytes)", addr.ip(), addr.port(), msg.len());
+
+            match socket.send(Message::Text(msg)).await {
+                Ok(_) => {}
+                Err(e) => {
+                    tracing::error!("ws client disconnected {}: {}", addr.ip(), e);
+                    break;
+                }
+            };
+        }
     }
 }
 
