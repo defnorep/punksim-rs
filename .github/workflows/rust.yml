@@ -15,8 +15,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - uses: Swatinem/rust-cache@v2
       - name: Setup
-        run: sudo apt-get install mold
+        run: sudo apt-get install mold alsa
       - name: Build
         run: cargo build --verbose
       - name: Run tests
