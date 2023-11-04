@@ -16,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Setup
-        run: apt-get install mold
+        run: sudo apt-get install mold
       - name: Build
         run: cargo build --verbose
       - name: Run tests
