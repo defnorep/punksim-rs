@@ -10,6 +10,9 @@ use crate::{
 use askama::Template;
 use bevy::prelude::*;
 
+// Clippy doesn't like us querying lots of components at once.
+// This table won't last long anyways, it'll be too large eventually.
+#[allow(clippy::type_complexity)]
 pub fn individuals_table(
     tx: Res<SendChannel>,
     clock: Res<Clock>,

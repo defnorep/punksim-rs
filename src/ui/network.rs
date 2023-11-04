@@ -17,7 +17,7 @@ use tower_http::{
     trace::{self, TraceLayer},
 };
 use tracing::Level;
-use tracing_subscriber::{prelude::__tracing_subscriber_SubscriberExt, EnvFilter};
+use tracing_subscriber::EnvFilter;
 
 async fn index() -> impl IntoResponse {
     let template = LayoutTemplate {};

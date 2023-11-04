@@ -6,8 +6,6 @@ use core::fmt::Display;
 
 const MIN_HUNGER: u32 = 0;
 const MAX_HUNGER: u32 = 100;
-const HUNGRY_THRESH: u32 = 50;
-const STARVING_THRESH: u32 = 80;
 const HUNGER_INTERVAL_HOURS: u32 = 8; // they should get hungry every 8 hours
 
 #[derive(Component, Clone)]
@@ -22,22 +20,10 @@ impl Hunger {
         self.0 = (self.0 + amount).clamp(MIN_HUNGER, MAX_HUNGER);
     }
 
-    pub fn reduce(&mut self, amount: u32) {
-        if amount > self.0 {
-            self.0 = 0; // can't go below 0 with unsigned integers when subtracting; rust will panic
-        } else {
-            self.0 = (self.0 - amount).clamp(MIN_HUNGER, MAX_HUNGER);
-        }
-    }
-
-    pub fn value(&self) -> u32 {
-        self.0
-    }
-
     pub fn level(&self) -> HungerLevel {
         match self.0 {
-            STARVING_THRESH..=MAX_HUNGER => HungerLevel::Starving,
-            HUNGRY_THRESH..=STARVING_THRESH => HungerLevel::Hungry,
+            80..=100 => HungerLevel::Starving,
+            50..=79 => HungerLevel::Hungry,
             _ => HungerLevel::Satisfied,
         }
     }
@@ -86,18 +72,12 @@ pub fn hunger_advance(
 
     if hunger_timer.0.finished() {
         for (entity, alive, mut hunger) in query.iter_mut() {
-            match alive {
-                Vitals::Alive => {
-                    hunger.increase(1);
+            if let Vitals::Alive = alive {
+                hunger.increase(1);
 
-                    match hunger.level() {
-                        HungerLevel::Starving => {
-                            commands.entity(entity).insert(Starving);
-                        }
-                        _ => {}
-                    }
+                if let HungerLevel::Starving = hunger.level() {
+                    commands.entity(entity).insert(Starving);
                 }
-                _ => {}
             }
         }
     }
@@ -108,14 +88,10 @@ mod test {
     fn test_hunger() {
         use super::*;
         let mut hunger = Hunger::new();
-        assert_eq!(hunger.value(), 0);
+        assert_eq!(hunger.0, 0);
         hunger.increase(50);
-        assert_eq!(hunger.value(), 50);
+        assert_eq!(hunger.0, 50);
         hunger.increase(100);
-        assert_eq!(hunger.value(), 100);
-        hunger.reduce(50);
-        assert_eq!(hunger.value(), 50);
-        hunger.reduce(100);
-        assert_eq!(hunger.value(), 0);
+        assert_eq!(hunger.0, 100);
     }
 }
