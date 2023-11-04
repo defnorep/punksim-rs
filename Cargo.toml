@@ -6,20 +6,26 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+axum = { git = "https://github.com/tokio-rs/axum", branch = "main", features = [
+  "ws",
+  "tokio",
+] }
+axum-extra = { git = "https://github.com/tokio-rs/axum", branch = "main", features = [
+  "typed-header",
+] }
 askama = { version = "0.12.1" }
 bevy = { version = "0.11.0", features = ["dynamic_linking"] }
 chrono = { version = "0.4.31", features = ["serde"] }
 flume = { version = "0.11.0" }
 futures-util = "0.3.28"
-log = "0.4.20"
-pretty_env_logger = "0.5.0"
 rand = "0.8.5"
-rouille = "3.6.2"
 serde = "1.0.189"
 tokio = { version = "1", features = ["full"] }
-tokio-tungstenite = "0.20.1"
 toml = "0.8.2"
-tungstenite = "0.20.1"
+headers = "0.3.9"
+tracing = "0.1.40"
+tower-http = { version = "0.4.4", features = ["trace", "fs"] }
+tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
 
 
 # Enable a small amount of optimization in debug mode

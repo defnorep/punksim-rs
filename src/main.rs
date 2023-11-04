@@ -14,12 +14,8 @@ use time::{clock_advance, Clock};
 use tokio::task;
 use ui::{
     census_ui::census_table, clock_ui::clock_ui, individuals_ui::individuals_table,
-    sockets::socket_startup, web::web_startup,
+    network::network_startup,
 };
-
-extern crate pretty_env_logger;
-#[macro_use]
-extern crate log;
 
 #[derive(Resource)]
 struct SendChannel(Sender<String>);
@@ -31,12 +27,9 @@ const FIXED_TIMESTEP: f32 = 1.0;
 
 #[tokio::main]
 async fn main() {
-    pretty_env_logger::init();
-
     let (tx, rx) = flume::unbounded();
 
-    task::spawn(socket_startup(rx));
-    task::spawn(web_startup());
+    task::spawn(network_startup(rx));
 
     let seed = data::seed();
 

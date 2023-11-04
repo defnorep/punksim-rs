@@ -1,8 +1,7 @@
 pub mod census_ui;
 pub mod clock_ui;
 pub mod individuals_ui;
-pub mod sockets;
-pub mod web;
+pub mod network;
 
 use crate::population::CitizenBundle;
 use askama::Template;
@@ -16,7 +15,7 @@ struct ClockTemplate {
 
 #[derive(Template)]
 #[template(path = "layout.html")]
-struct LayoutTemplate {}
+pub struct LayoutTemplate {}
 
 #[derive(Template)]
 #[template(path = "partials/individuals.html")]
