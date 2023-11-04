@@ -15,7 +15,7 @@ struct ClockTemplate {
 
 #[derive(Template)]
 #[template(path = "layout.html")]
-pub struct LayoutTemplate {}
+struct LayoutTemplate {}
 
 #[derive(Template)]
 #[template(path = "partials/individuals.html")]
