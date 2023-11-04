@@ -30,7 +30,7 @@ pub fn census_table(
                 Vitals::Unknown => acc.unknown += 1,
             }
 
-            return acc;
+            acc
         },
     );
 

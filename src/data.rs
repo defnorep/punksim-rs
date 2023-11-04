@@ -24,11 +24,11 @@ pub fn names() -> Names {
 pub fn seed() -> Seed {
     match read_datafile("seed.override.toml") {
         Ok(datafile_override) => {
-            return decode_datafile::<Seed>(datafile_override).unwrap();
+            decode_datafile::<Seed>(datafile_override).unwrap()
         }
         Err(_) => {
             let datafile = read_datafile("seed.toml").unwrap();
-            return decode_datafile::<Seed>(datafile).unwrap();
+            decode_datafile::<Seed>(datafile).unwrap()
         }
     }
 }

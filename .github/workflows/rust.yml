@@ -18,7 +18,11 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - name: Setup
         run: sudo apt-get install mold libasound2-dev libudev-dev
+      - name: Configure Rust
+        run: rustup component add clippy
       - name: Build
         run: cargo build --verbose
+      - name: Clippy
+        run: cargo clippy --verbose --no-deps
       - name: Run tests
         run: cargo test --verbose
