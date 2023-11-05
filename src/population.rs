@@ -184,6 +184,11 @@ pub struct Census {
     pub living: u32,
     pub deceased: u32,
     pub unknown: u32,
+    pub infants: u32,
+    pub children: u32,
+    pub adults: u32,
+    pub adolescents: u32,
+    pub elderly: u32,
 }
 
 impl Census {
@@ -199,6 +204,11 @@ impl Census {
             living: 0,
             deceased: 0,
             unknown: 0,
+            infants: 0,
+            children: 0,
+            adolescents: 0,
+            adults: 0,
+            elderly: 0,
         }
     }
 }

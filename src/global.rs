@@ -21,7 +21,7 @@ impl Display for Mass {
 }
 
 #[derive(Component, Clone)]
-pub struct Years(pub f32);
+pub struct Years(pub u32);
 
 impl Display for Years {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -38,6 +38,12 @@ pub struct Dimensions {
 
 #[derive(Component, Clone)]
 pub struct Epoch(pub DateTime<Utc>);
+
+impl Epoch {
+    pub fn age(&self, reference: DateTime<Utc>) -> u32 {
+        reference.years_since(self.0).unwrap()
+    }
+}
 
 impl Display for Epoch {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
