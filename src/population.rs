@@ -183,7 +183,6 @@ pub struct Census {
     pub ungendered: u32,
     pub living: u32,
     pub deceased: u32,
-    pub missing: u32,
     pub unknown: u32,
 }
 
@@ -199,7 +198,6 @@ impl Census {
             ungendered: 0,
             living: 0,
             deceased: 0,
-            missing: 0,
             unknown: 0,
         }
     }

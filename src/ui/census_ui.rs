@@ -36,6 +36,7 @@ pub fn census_table(
 
     let html = CensusTemplate {
         sets: vec![
+            ("Total".into(), vec![("Total".into(), census.total)]),
             (
                 "Physiology".into(),
                 vec![
