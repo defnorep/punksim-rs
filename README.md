@@ -31,3 +31,8 @@ Areas to consider for simulation.
 
 If we have transportation, we can connect people to jobs, errands, accidents, etc.
 Locations can be abstract right now; we don't have to perfectly model the real world.
+
+- Transportation Graph
+  - Adjacency list
+  - Skip specific mode of transportation for now
+  - Look at Bevy assets API for loading data
