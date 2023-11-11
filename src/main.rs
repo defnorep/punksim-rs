@@ -7,8 +7,7 @@ mod ui;
 use bevy::prelude::*;
 use flume::{Receiver, Sender};
 use population::{
-    hunger_system::{hunger_advance, hunger_setup},
-    population_seeding_system::population_seeding_system,
+    hunger_system::hunger_advance, population_seeding_system::population_seeding_system,
 };
 use time::{clock_advance, Clock};
 use tokio::task;
@@ -39,7 +38,7 @@ async fn main() {
         .insert_resource(Clock(seed.date))
         .insert_resource(seed)
         .add_plugins(MinimalPlugins)
-        .add_systems(Startup, (population_seeding_system, hunger_setup))
+        .add_systems(Startup, population_seeding_system)
         .add_systems(Update, (clock_advance, hunger_advance))
         .add_systems(FixedUpdate, (clock_ui, individuals_table, census_table))
         .insert_resource(FixedTime::new_from_secs(FIXED_TIMESTEP))
