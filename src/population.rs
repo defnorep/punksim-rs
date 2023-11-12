@@ -1,3 +1,4 @@
+pub mod fatigue;
 pub mod hunger;
 pub(crate) mod seeding;
 

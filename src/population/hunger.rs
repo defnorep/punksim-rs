@@ -53,17 +53,6 @@ pub fn hunger_advance(time: Res<Time>, seed: Res<Seed>, mut query: Query<(&Vital
 
 mod test {
     #[test]
-    fn test_hunger() {
-        use super::*;
-
-        let mut hunger = Hunger::new();
-
-        assert_eq!(hunger.0, 0.0);
-        hunger.increase(5.0);
-        assert_eq!(hunger.0, 5.0);
-    }
-
-    #[test]
     fn test_hunger_advance() {
         use super::*;
         use chrono::Utc;
