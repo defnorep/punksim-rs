@@ -2,7 +2,8 @@ use super::IndividualsTemplate;
 use crate::{
     global::{Dimensions, Epoch, Mass},
     population::{
-        hunger::Hunger, Attributes, CitizenBundle, CivicIdentity, Gender, Physiology, Vitals,
+        fatigue::Fatigue, hunger::Hunger, Attributes, CitizenBundle, CivicIdentity, Gender,
+        Physiology, Vitals,
     },
     time::Clock,
     SendChannel,
@@ -22,6 +23,7 @@ pub fn individuals_table(
         &CivicIdentity,
         &Dimensions,
         &Epoch,
+        &Fatigue,
         &Gender,
         &Hunger,
         &Mass,
@@ -31,16 +33,19 @@ pub fn individuals_table(
     let individuals: Vec<CitizenBundle> = query
         .into_iter()
         .map(
-            |(alive, attr, id, dim, epoch, gender, hunger, mass, physiology)| CitizenBundle {
-                vitals: alive.clone(),
-                attributes: attr.clone(),
-                civic_identity: id.clone(),
-                dimensions: dim.clone(),
-                epoch: epoch.clone(),
-                gender: gender.clone(),
-                hunger: hunger.clone(),
-                mass: mass.clone(),
-                physiology: physiology.clone(),
+            |(alive, attr, id, dim, epoch, fatigue, gender, hunger, mass, physiology)| {
+                CitizenBundle {
+                    vitals: alive.clone(),
+                    attributes: attr.clone(),
+                    civic_identity: id.clone(),
+                    dimensions: dim.clone(),
+                    epoch: epoch.clone(),
+                    fatigue: fatigue.clone(),
+                    gender: gender.clone(),
+                    hunger: hunger.clone(),
+                    mass: mass.clone(),
+                    physiology: physiology.clone(),
+                }
             },
         )
         .collect();

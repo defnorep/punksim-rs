@@ -1,8 +1,7 @@
 pub mod fatigue;
 pub mod hunger;
 pub(crate) mod seeding;
-
-use self::hunger::Hunger;
+use self::{fatigue::Fatigue, hunger::Hunger};
 use crate::{
     data,
     global::{Dimensions, Epoch, Mass, Meters},
@@ -22,6 +21,7 @@ pub struct CitizenBundle {
     pub civic_identity: CivicIdentity,
     pub dimensions: Dimensions,
     pub epoch: Epoch,
+    pub fatigue: Fatigue,
     pub gender: Gender,
     pub hunger: Hunger,
     pub mass: Mass,
@@ -43,6 +43,7 @@ impl CitizenBundle {
                 depth: Meters(0.2), // default humanoid... depth?
             },
             epoch: Epoch(epoch),
+            fatigue: Fatigue::new(),
             gender: rand::random(),
             hunger: Hunger::new(),
             mass: Mass(rand::thread_rng().gen_range(70.0..=120.0)),
