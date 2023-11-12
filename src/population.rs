@@ -1,7 +1,7 @@
-pub mod hunger_system;
-pub(crate) mod population_seeding_system;
+pub mod hunger;
+pub(crate) mod seeding;
 
-use self::hunger_system::Hunger;
+use self::hunger::Hunger;
 use crate::{
     data,
     global::{Dimensions, Epoch, Mass, Meters},

@@ -2,7 +2,7 @@ use super::IndividualsTemplate;
 use crate::{
     global::{Dimensions, Epoch, Mass},
     population::{
-        hunger_system::Hunger, Attributes, CitizenBundle, CivicIdentity, Gender, Physiology, Vitals,
+        hunger::Hunger, Attributes, CitizenBundle, CivicIdentity, Gender, Physiology, Vitals,
     },
     time::Clock,
     SendChannel,

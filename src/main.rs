@@ -6,9 +6,7 @@ mod ui;
 
 use bevy::prelude::*;
 use flume::{Receiver, Sender};
-use population::{
-    hunger_system::hunger_advance, population_seeding_system::population_seeding_system,
-};
+use population::{hunger::hunger_advance, seeding::population_seeding_system};
 use time::{clock_advance, Clock};
 use tokio::task;
 use ui::{
